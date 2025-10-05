@@ -72,20 +72,10 @@ jobs:
     - uses: actions/checkout@main
       with:
         submodules: true
-    - name: Install Clang 21
-      run: |
-        wget 'https://apt.llvm.org/llvm.sh'
-        sudo bash './llvm.sh' '21'
-        
-        for old in '/usr/bin/'*'-21'; do
-            declare new="$(sed 's/-21//g' <<< "${old}")"
-            sudo unlink "${new}" 2>/dev/null || true
-            sudo ln --symbolic "${old}" "${new}"
-        done
     - name: Apply CMake fixes for Android
       run: |
         sudo sed --in-place '/CMAKE_SHARED_LIBRARY_RUNTIME_C_FLAG/d' '/usr/local/share/cmake-'*'/Modules/Platform/Android.cmake'
-    - name: Cross-compile LLVM LLD to ${{ matrix.target }}
+    - name: Cross-compile mold to ${{ matrix.target }}
       run: |
         if [[ '${{ matrix.target }}' == *'-linux-musl'* ]]; then
             declare -r RAIDEN_TAG="$(jq --raw-output '.tag_name' <<< "$(curl --connect-timeout '10' --retry '15' --retry-all-errors --fail --silent --url 'https://api.github.com/repos/AmanoTeam/Raiden/releases/latest')")"
