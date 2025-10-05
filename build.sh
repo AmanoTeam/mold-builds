@@ -135,6 +135,8 @@ fi
 
 cmake \
 	${cmake_flags} \
+	-S "${mold_directory}" \
+	-B "${mold_directory}/build" \
 	-DCMAKE_TOOLCHAIN_FILE="/tmp/${host}.cmake" \
 	-DCMAKE_BUILD_TYPE='Release' \
 	-DCMAKE_CXX_FLAGS="${cmake_cxx_flags}" \
