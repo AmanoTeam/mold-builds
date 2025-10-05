@@ -19,6 +19,8 @@ declare -r max_jobs='30'
 
 declare -r host="${1}"
 
+export MACOSX_DEPLOYMENT_TARGET=11.3
+
 if ! [ -f "${zstd_tarball}" ]; then
 	curl \
 		--url 'https://github.com/facebook/zstd/archive/refs/heads/dev.tar.gz' \
